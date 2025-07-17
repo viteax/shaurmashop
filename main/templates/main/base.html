@@ -13,38 +13,55 @@
     <link rel="stylesheet" href="{% static "css\base.css" %}">
 </head>
 <body>
-    <header class="bg-dark" data-bs-theme="dark">
-        <nav class="navbar navbar-expand-lg container">
-            <div class="container-fluid">
-                <a href="{% url 'main:product_list' %}" class="navbar-brand">Шаурма от Байдена</a>
-                <div class="collapse navbar-collapse">
-                    <ul class="navbar-nav">
-                        {% for category in categories %}
-                        <li>
-                            <a href="{{ category.get_absolute_url }}" class="nav-link">
-                                {{ category.name }}
-                            </a>
-                        </li>    
-                        {% endfor %}
-                    </ul>
-                </div>
+    <nav class="navbar navbar-expand-lg containernavbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a href="{% url 'main:product_list' %}" class="navbar-brand">Шаурма от Байдена</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav">
+                    {% for category in categories %}
+                    <li>
+                        <a href="{{ category.get_absolute_url }}" class="nav-link">
+                            {{ category.name }}
+                        </a>
+                    </li>    
+                    {% endfor %}
+                </ul>
             </div>
-        </nav>
-    </header>
+        </div>
+    </nav>
 
-    <section class="container">
+    <main class="container my-5">
         {% block content %}
         {% endblock content %}
-    </section>
+    </main>
 
-    <div class="fixed-bottom bg-dark" data-bs-theme="dark">
-        <div class="container">
-            <footer class="py-3 my-4">
-                <p class="text-center text-body-secondary">© 2025 Сочная Шава</p>
-            </footer>
+    <footer class="bg-dark text-white mt-5">
+        <div class="container py-4">
+            <div class="row">
+            <div class="col-md-4">
+                <h5>Шаурма от Байдена</h5>
+                <p>Your go-to place for great products at great prices.</p>
+            </div>
+            <div class="col-md-4">
+                <h5>Links</h5>
+                <ul class="list-unstyled">
+                <li><a href="{% url 'main:product_list' %}" class="text-white text-decoration-none">Home</a></li>
+                <li><a href="{% url 'main:product_list' %}" class="text-white text-decoration-none">Products</a></li>
+                <li><a href="{% url 'main:product_list' %}" class="text-white text-decoration-none">Contact</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h5>Contact Us</h5>
+                <p>Email: support@mystore.com</p>
+                <p>Phone: +1 (555) 123-4567</p>
+            </div>
+            </div>
+            <hr class="bg-secondary">
+            <div class="text-center">
+            <small>&copy; {{ year|default:"2025" }} Шаурма от Байдена. All rights reserved.</small>
+            </div>
         </div>
-    </div>
-
+    </footer>
 
     <script src="{% static "bootstrap\js\bootstrap.bundle.min.js" %}"></script>
 </body>
