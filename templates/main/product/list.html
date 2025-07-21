@@ -20,7 +20,11 @@
             <h5 class="card-title">{{ product.name }}</h5>
             <p class="card-text">{{ product.description }}</p>
             <p class="card-text fw-bold">${{ product.get_price }}</p>
-            <a href="#" class="btn btn-primary mt-auto">Buy</a>
+            <form action="{% url 'cart:add_product' product.id %}" method="post">
+              {{ add_product_form }}
+              <button type="submit" class="btn btn-primary mt-auto">Buy</button>
+              {% csrf_token %}
+            </form>
           </div>
         </div>
       </div>

@@ -1,11 +1,14 @@
 from django.shortcuts import get_object_or_404, render
 
+from cart.forms import CartAddProductForm
+
 from .models import Category, Product
 
 
 def product_list(request, category_slug=None):
     categories = Category.objects.all()
     products = Product.objects.filter(is_available=True)
+    add_product_form = CartAddProductForm()
 
     category = None
     if category_slug:
@@ -19,6 +22,7 @@ def product_list(request, category_slug=None):
             'category': category,
             'categories': categories,
             'products': products,
+            'add_product_form': add_product_form,
         },
     )
 

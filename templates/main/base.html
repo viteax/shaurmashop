@@ -27,9 +27,30 @@
           </li>
           {% endfor %}
         </ul>
+
+        <ul class="navbar-nav ms-auto d-flex align-items-center">
+        <li class="nav-item">
+          <a href="{% url 'cart:cart_detail' %}" class="nav-link position-relative">
+            🛒 Корзина
+            {% if cart %}
+              <span class="badge bg-danger position-absolute top-0 start-100 translate-middle">
+                {{ cart|length }}
+              </span>
+            {% endif %}
+          </a>
+        </li>
+      </ul>
       </div>
     </div>
   </nav>
+
+  {% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
 
   <main class="container my-5">
     {% block content %}
