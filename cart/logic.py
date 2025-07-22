@@ -36,7 +36,7 @@ class Cart:
     def get_total_price(self):
         total_price = 0
         for item in self.cart.values():
-            total_price += item['price']
+            total_price += item['price'] * item['quantity']
         return total_price
 
     def clear(self):
