@@ -11,11 +11,11 @@ class Category(models.Model):
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
 
+    def get_absolute_url(self) -> str:
+        return reverse('main:product_list_by_category', args=(self.slug,))
+
     def __str__(self):
         return self.name
-
-    def get_absolute_url(self):
-        return reverse('main:product_list_by_category', args=(self.slug,))
 
 
 class Product(models.Model):
@@ -39,12 +39,12 @@ class Product(models.Model):
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
 
-    def get_price(self):
+    def get_price(self) -> float:
         if self.discount:
             return round(self.price - self.price * self.discount / 100, 2)
         return self.price
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         return reverse('main:product_detail', args=[self.id, self.slug])
 
     def __str__(self):

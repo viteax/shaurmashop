@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
@@ -8,7 +9,7 @@ from .forms import CartAddProductForm
 from .logic import Cart
 
 
-def cart_detail(request):
+def cart_detail(request: WSGIRequest):
     cart = Cart(request)
     return render(request, 'cart/detail.html', {'cart': cart})
 

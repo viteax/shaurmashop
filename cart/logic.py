@@ -1,20 +1,21 @@
 from django.conf import settings
+from django.core.handlers.wsgi import WSGIRequest
 
 from main.models import Product
 
 
 class Cart:
-    def __init__(self, request):
+    def __init__(self, request: WSGIRequest):
         self.session = request.session
         cart = self.session.get(settings.CART_SESSION_ID)
         if not cart:
             cart = self.session[settings.CART_SESSION_ID] = {}
-        self.cart = cart
+        self.cart: dict[str, str] = cart
 
     def save(self):
         self.session.modified = True
 
-    def remove(self, product, quantity=0):
+    def remove(self, product: Product, quantity=0):
         product_id = str(product.id)
         if product_id not in self.cart:
             return
@@ -25,7 +26,7 @@ class Cart:
             del self.cart[product_id]
         self.save()
 
-    def add(self, product, quantity=1, override_quantity=False):
+    def add(self, product: Product, quantity=1, override_quantity=False):
         product_id = str(product.id)
         if product_id not in self.cart:
             self.cart[product_id] = {
@@ -39,22 +40,22 @@ class Cart:
             self.cart[product_id]['quantity'] += quantity
         self.save()
 
-    def get_quantity(self, product) -> int:
+    def get_quantity(self, product: Product) -> int:
         info = self.cart.get(str(product.id))
         return int(info['quantity']) if info else 0
 
-    def get_total_price(self):
-        total_price = 0
-        for item in self.cart.values():
-            total_price += item['price'] * item['quantity']
-        return total_price
+    def get_total_price(self) -> float:
+        return round(
+            sum(
+                item['price'] * item['quantity']
+                for item in self.cart.values()
+            ),
+            2,
+        )
 
     def clear(self):
         del self.cart
         self.save()
-
-    def get_cart(self):
-        return self.cart
 
     def __iter__(self):
         product_ids = self.cart.keys()
