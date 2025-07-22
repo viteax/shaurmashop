@@ -1,0 +1,43 @@
+{% load cart_tags %}
+
+{% if cart|get_quantity:product %}
+
+  <div id="cart-controls-{{ product.id }}" class="d-flex align-items-center justify-content-between gap-2">
+    <form method="post"
+          hx-post="{% url 'cart:cart_remove_one' product.id %}"
+          hx-target="#cart-controls-{{ product.id }}"
+          hx-swap="outerHTML"
+    >
+      {% csrf_token %}
+      <button type="submit" class="btn btn-outline-danger">−</button>
+    </form>
+
+    <span class="fw-bold">В корзине: {{ cart|get_quantity:product }}</span>
+
+    <form method="post"
+          hx-post="{% url 'cart:add_product_htmx' product.id %}"
+          hx-target="#cart-controls-{{ product.id }}"
+          hx-swap="outerHTML"
+    >
+      {% csrf_token %}
+      <button type="submit" class="btn btn-outline-success">+</button>
+    </form>
+  </div>
+
+{% else %}
+  
+  <div id="cart-controls-{{ product.id }}">
+    <form 
+      action="{% url 'cart:add_product_htmx' product.id %}" 
+      method="post"
+      hx-post="{% url 'cart:add_product_htmx' product.id %}"
+      hx-target="#cart-controls-{{ product.id }}"
+      hx-swap="outerHTML"
+    >
+      {% csrf_token %}
+      <button type="submit" class="btn btn-primary mt-auto w-100">Купить</button>
+    </form>
+  </div>
+
+{% endif %}
+  

@@ -14,6 +14,32 @@ def cart_detail(request):
 
 
 @require_POST
+def add_product_htmx(request, product_id):
+    cart = Cart(request)
+    product = get_object_or_404(Product, id=product_id)
+    cart.add(product)
+    quantity = cart.get_quantity(product)
+    return render(
+        request,
+        'cart/cart_controls.html',
+        {'product': product, 'quantity': quantity},
+    )
+
+
+@require_POST
+def cart_remove_one(request, product_id):
+    cart = Cart(request)
+    product = get_object_or_404(Product, id=product_id)
+    cart.remove(product, quantity=1)
+    quantity = cart.get_quantity(product)
+    return render(
+        request,
+        'cart/cart_controls.html',
+        {'product': product, 'quantity': quantity},
+    )
+
+
+@require_POST
 def add_product(request, product_id):
     cart = Cart(request)
     product = get_object_or_404(Product, id=product_id)
