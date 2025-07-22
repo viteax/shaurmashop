@@ -22,10 +22,9 @@ def add_product(request, product_id):
     if form.is_valid():
         cd = form.cleaned_data
         cart.add(product, cd['quantity'], cd['override'])
-        return redirect('cart:cart_detail')
     else:
         messages.error(request, 'error')
-        return redirect('main:product_list')
+    return redirect('main:product_list')
 
 
 @require_POST
