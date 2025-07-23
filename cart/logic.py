@@ -33,7 +33,6 @@ class Cart:
                 'quantity': 0,
                 'price': str(product.get_price()),
             }
-
         if override_quantity:
             self.cart[product_id]['quantity'] = quantity
         else:
